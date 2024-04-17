@@ -13,10 +13,14 @@ import java.time.LocalDateTime;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String app;
-    String uri;
-    String ip;
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "app")
+    private String app;
+    @Column(name = "uri")
+    private String uri;
+    @Column(name = "ip")
+    private String ip;
     @Column(name = "created")
-    LocalDateTime date;
+    private LocalDateTime date;
 }
