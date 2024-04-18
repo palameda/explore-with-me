@@ -10,5 +10,5 @@ public interface StatsService {
 
     void save(EventDto eventDto);
 
-    List<StatsDto> findAll(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique);
+    List<StatsDto> findStatistics(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique);
 }
