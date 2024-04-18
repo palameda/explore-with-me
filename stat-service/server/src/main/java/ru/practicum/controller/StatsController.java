@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.EventDto;
 import ru.practicum.dto.StatsDto;
+import ru.practicum.exception.BadRequestException;
 import ru.practicum.service.StatsService;
 
 import javax.validation.Valid;
@@ -36,12 +37,15 @@ public class StatsController {
     public List<StatsDto> getStats(@RequestParam(value = "start") @NotBlank String startTimeString,
                                    @RequestParam(value = "end") @NotBlank String endTimeString,
                                    @RequestParam(value = "uris", required = false) List<String> uris,
-                                   @RequestParam(value = "unique", required = false, defaultValue = "false") Boolean unique) {
+                                   @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         log.info("Контроллер: получен GET метод запроса по эндпоинту /stats c start = {}, end = {}, uris = {}, unique = {}",
                 startTimeString, endTimeString, uris, unique
         );
         LocalDateTime start = LocalDateTime.parse(startTimeString, dateTimeFormatter);
         LocalDateTime end = LocalDateTime.parse(endTimeString, dateTimeFormatter);
-        return service.findAll(start, end, uris, unique);
+        if (end.isBefore(start)) {
+            throw new BadRequestException("Указаны некорректные значения для даты/времени");
+        }
+        return service.findStatistics(start, end, uris, unique);
     }
 }
