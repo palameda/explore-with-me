@@ -1,8 +1,9 @@
 package ru.practicum.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.EventDto;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.model.Event;
@@ -11,29 +12,50 @@ import ru.practicum.utility.Mapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class StatsServiceImpl implements StatsService {
-    private final StatsDbRepository repository;
-    private final Mapper mapper;
+    private StatsDbRepository repository;
+    private Mapper mapper;
 
+    @Transactional
     @Override
     public void save(EventDto eventDto) {
-        repository.save(mapper.toModel(eventDto));
-        log.info("Запрос на сохранение {} успешно обработан", eventDto);
+        if (eventDto.getCreated() == null) {
+            eventDto.setCreated(LocalDateTime.now());
+        }
+        Event event = repository.save(mapper.toModel(eventDto));
+        log.info("Запрос на сохранение {} успешно обработан", event);
     }
 
     @Override
-    public List<StatsDto> findAll(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        log.info("Запрос статистики, где start - {}, end - {}, uris = {}, unique = {}", start, end, uris, unique);
+    public List<StatsDto> findStatistics(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         if (uris == null || uris.isEmpty()) {
-            uris = repository.findAll().stream()
-                    .map(Event::getUri)
-                    .collect(Collectors.toList());
+            return unique ? findStatsByUniqueIp(start, end) : findAllStats(start, end);
+        } else {
+            return unique ? findStatsByUrisAndUniqueIp(start, end, uris) : findStatsByUris(start, end, uris);
         }
-        return unique ? repository.findUniqueStatistics(start, end, uris) : repository.findRequiredStatistics(start, end, uris);
+    }
+
+    private List<StatsDto> findStatsByUniqueIp(LocalDateTime start, LocalDateTime end) {
+        log.info("Запрос на получение статистики по уникальному ip");
+        return repository.findStatisticsByUniqueIp(start, end);
+    }
+
+    private List<StatsDto> findAllStats(LocalDateTime start, LocalDateTime end) {
+        log.info("Запрос на получение статистики");
+        return repository.findAllStatistics(start, end);
+    }
+
+    private List<StatsDto> findStatsByUrisAndUniqueIp(LocalDateTime start, LocalDateTime end, List<String> uris) {
+        log.info("Запрос на получение статистики по uri и по уникальному ip");
+        return repository.findStatisticsByUrisByUniqueIp(start, end, uris);
+    }
+
+    private List<StatsDto> findStatsByUris(LocalDateTime start, LocalDateTime end, List<String> uris) {
+        log.info("Запрос на получение статистики по uri");
+        return repository.findStatisticsByUris(start, end, uris);
     }
 }
