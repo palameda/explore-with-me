@@ -2,12 +2,14 @@ package ru.practicum.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "statistics", schema = "public")
 public class Event {
@@ -22,5 +24,5 @@ public class Event {
     @Column(name = "ip")
     private String ip;
     @Column(name = "created")
-    private LocalDateTime date;
+    private LocalDateTime created;
 }
