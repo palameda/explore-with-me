@@ -10,6 +10,7 @@ import ru.practicum.model.Event;
 @RequiredArgsConstructor
 public class Mapper {
     private final ModelMapper modelMapper;
+
     public Event toModel(EventDto eventDto) {
         return modelMapper.map(eventDto, Event.class);
     }
