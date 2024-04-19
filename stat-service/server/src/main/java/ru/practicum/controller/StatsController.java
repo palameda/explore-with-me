@@ -2,6 +2,7 @@ package ru.practicum.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +35,16 @@ public class StatsController {
 
     @GetMapping("/stats")
     @ResponseStatus(HttpStatus.OK)
-    public List<StatsDto> getStats(@RequestParam(value = "start") @NotBlank String startTimeString,
-                                   @RequestParam(value = "end") @NotBlank String endTimeString,
-                                   @RequestParam(value = "uris", required = false) List<String> uris,
-                                   @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
+    public List<StatsDto> getStats(
+            @RequestParam(value = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+            @RequestParam(value = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+            @RequestParam(value = "uris", required = false) List<String> uris,
+            @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         log.info("Контроллер: получен GET метод запроса по эндпоинту /stats c start = {}, end = {}, uris = {}, unique = {}",
-                startTimeString, endTimeString, uris, unique
+                start, end, uris, unique
         );
-        LocalDateTime start = LocalDateTime.parse(startTimeString, dateTimeFormatter);
-        LocalDateTime end = LocalDateTime.parse(endTimeString, dateTimeFormatter);
+//        LocalDateTime start = LocalDateTime.parse(startTimeString, dateTimeFormatter);
+//        LocalDateTime end = LocalDateTime.parse(endTimeString, dateTimeFormatter);
         if (end.isBefore(start)) {
             throw new BadRequestException("Указаны некорректные значения для даты/времени");
         }
