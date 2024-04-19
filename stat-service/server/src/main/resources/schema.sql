@@ -3,5 +3,5 @@ create table if not exists statistics (
     app varchar(255) not null,
     uri varchar(255) not null,
     ip varchar(15) not null,
-    created timestamp;
+    created timestamp
 );
