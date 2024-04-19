@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.EventDto;
+import ru.practicum.dto.HitDto;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.exception.BadRequestException;
 import ru.practicum.service.StatsService;
@@ -27,9 +27,9 @@ public class StatsController {
 
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@Valid @RequestBody EventDto eventDto) {
-        log.info("Контроллер: получен POST метод запроса по эндпоинту /hit с {}", eventDto);
-        service.save(eventDto);
+    public void save(@Valid @RequestBody HitDto hitDto) {
+        log.info("Контроллер: получен POST метод запроса по эндпоинту /hit с {}", hitDto);
+        service.save(hitDto);
     }
 
     @GetMapping("/stats")

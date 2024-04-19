@@ -2,7 +2,7 @@ package ru.practicum;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.practicum.dto.EventDto;
+import ru.practicum.dto.HitDto;
 import ru.practicum.dto.StatsDto;
 
 import java.util.List;
@@ -14,10 +14,10 @@ public class StatClient {
         this.webClient = WebClient.create(baseUrl);
     }
 
-    public void save(EventDto eventDto) {
+    public void save(HitDto hitDto) {
         webClient.post()
                 .uri("/hit")
-                .bodyValue(eventDto)
+                .bodyValue(hitDto)
                 .retrieve()
                 .toBodilessEntity()
                 .block();

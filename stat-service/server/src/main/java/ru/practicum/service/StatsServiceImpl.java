@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.dto.EventDto;
+import ru.practicum.dto.HitDto;
 import ru.practicum.dto.StatsDto;
-import ru.practicum.model.Event;
+import ru.practicum.model.Hit;
 import ru.practicum.repository.StatsDbRepository;
 import ru.practicum.utility.Mapper;
 
@@ -22,11 +22,11 @@ public class StatsServiceImpl implements StatsService {
 
     @Transactional
     @Override
-    public void save(EventDto eventDto) {
-        if (eventDto.getCreated() == null) {
-            eventDto.setCreated(LocalDateTime.now());
+    public void save(HitDto hitDto) {
+        if (hitDto.getCreated() == null) {
+            hitDto.setCreated(LocalDateTime.now());
         }
-        Event event = repository.save(mapper.toModel(eventDto));
+        Hit event = repository.save(mapper.toModel(hitDto));
         log.info("Запрос на сохранение {} успешно обработан", event);
     }
 

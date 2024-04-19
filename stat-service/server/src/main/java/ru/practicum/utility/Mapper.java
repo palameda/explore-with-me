@@ -3,15 +3,15 @@ package ru.practicum.utility;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import ru.practicum.dto.EventDto;
-import ru.practicum.model.Event;
+import ru.practicum.dto.HitDto;
+import ru.practicum.model.Hit;
 
 @Component
 @RequiredArgsConstructor
 public class Mapper {
     private final ModelMapper modelMapper;
 
-    public Event toModel(EventDto eventDto) {
-        return modelMapper.map(eventDto, Event.class);
+    public Hit toModel(HitDto hitDto) {
+        return modelMapper.map(hitDto, Hit.class);
     }
 }

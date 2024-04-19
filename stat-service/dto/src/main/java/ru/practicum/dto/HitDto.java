@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDto {
+public class HitDto {
     @NotBlank
     private String app;
     @NotBlank

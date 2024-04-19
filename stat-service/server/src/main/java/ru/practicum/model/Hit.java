@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
-@Table(name = "statistics", schema = "public")
-public class Event {
+@Table(name = "stats")
+public class Hit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
