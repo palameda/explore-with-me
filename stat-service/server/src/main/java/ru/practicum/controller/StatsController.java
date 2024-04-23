@@ -42,8 +42,6 @@ public class StatsController {
         log.info("Контроллер: получен GET метод запроса по эндпоинту /stats c start = {}, end = {}, uris = {}, unique = {}",
                 start, end, uris, unique
         );
-//        LocalDateTime start = LocalDateTime.parse(startTimeString, dateTimeFormatter);
-//        LocalDateTime end = LocalDateTime.parse(endTimeString, dateTimeFormatter);
         if (end.isBefore(start)) {
             throw new BadRequestException("Указаны некорректные значения для даты/времени");
         }
