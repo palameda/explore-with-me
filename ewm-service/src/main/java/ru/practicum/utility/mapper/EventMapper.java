@@ -1,4 +1,9 @@
 package ru.practicum.utility.mapper;
 
-public interface EventMapper {
+import org.mapstruct.Mapper;
+import ru.practicum.api.event.EventFullDto;
+import ru.practicum.model.Event;
+
+@Mapper(componentModel = "spring")
+public interface EventMapper extends DefaultMapper<Event, EventFullDto> {
 }
