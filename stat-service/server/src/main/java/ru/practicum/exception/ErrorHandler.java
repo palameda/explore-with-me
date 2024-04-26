@@ -25,7 +25,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleException(final Exception exception) {
         log.info("Произошла ошибка: {}", exception.getMessage());
         return new ErrorResponse(exception.getMessage());
