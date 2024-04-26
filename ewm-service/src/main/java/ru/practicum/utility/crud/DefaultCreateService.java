@@ -1,5 +1,5 @@
 package ru.practicum.utility.crud;
 
-public interface DefaultCreateService<CMD, D> {
-    D create(CMD createDto);
+public interface DefaultCreateService<CD, D> {
+    D create(CD createDto);
 }
