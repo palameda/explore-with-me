@@ -22,6 +22,7 @@ import ru.practicum.utility.mapper.EventShortMapper;
 import ru.practicum.utility.page.Page;
 
 import javax.persistence.criteria.Join;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -74,6 +75,7 @@ public class EventServiceImpl implements EventService {
         return fullDtoMapper.toDto(event);
     }
 
+    @Transactional
     @Override
     public EventFullDto confirmEventByAdmin(Long eventId, UpdateEventAdminRequest request) {
         Event event = Optional.ofNullable(eventId)
@@ -101,6 +103,7 @@ public class EventServiceImpl implements EventService {
         return List.copyOf(fullDtoMapper.toDto(events));
     }
 
+    @Transactional
     @Override
     public EventFullDto create(Long userRequestFromId, NewEventDto newEventDto) {
         User initiator = userRepository
@@ -148,6 +151,7 @@ public class EventServiceImpl implements EventService {
         return fullDtoMapper.toDto(event);
     }
 
+    @Transactional
     @Override
     public EventFullDto update(final Long userId, final Long eventId, UpdateEventUserRequest updateRequest) {
         User initiator = userRepository.findById(userId)

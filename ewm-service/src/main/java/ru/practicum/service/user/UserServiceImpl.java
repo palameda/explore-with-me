@@ -12,6 +12,7 @@ import ru.practicum.repository.UserRepository;
 import ru.practicum.utility.mapper.UserMapper;
 import ru.practicum.utility.page.Page;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
         return List.copyOf(userMapper.toDto(users));
     }
 
+    @Transactional
     @Override
     public UserDto create(NewUserRequest userRequest) {
         User user = User.builder()
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
+    @Transactional
     @Override
     public void delete(Long userId) {
         Optional.ofNullable(userId)

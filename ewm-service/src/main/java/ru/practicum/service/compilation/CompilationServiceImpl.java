@@ -16,6 +16,7 @@ import ru.practicum.repository.EventRepository;
 import ru.practicum.utility.mapper.CompilationMapper;
 import ru.practicum.utility.page.Page;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,7 @@ public class CompilationServiceImpl implements CompilationService {
     private final EventRepository eventRepository;
     private final CompilationMapper compilationMapper;
 
+    @Transactional
     @Override
     public CompilationDto create(NewCompilationDto createDto) {
         Compilation compilation = Compilation.builder()
@@ -42,6 +44,7 @@ public class CompilationServiceImpl implements CompilationService {
         return compilationMapper.toDto(compilation);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         Compilation compilation = compilationRepository.findById(id)
@@ -66,6 +69,7 @@ public class CompilationServiceImpl implements CompilationService {
                 .orElseThrow(() -> new NotFoundException("Подборка с id = " + id + " не найдена в системе"));
     }
 
+    @Transactional
     @Override
     public CompilationDto update(Long id, UpdateCompilationRequest updateDto) {
         Compilation compilation = compilationRepository.findById(id)

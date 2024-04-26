@@ -15,6 +15,7 @@ import ru.practicum.repository.EventRepository;
 import ru.practicum.utility.mapper.CategoryMapper;
 import ru.practicum.utility.page.Page;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final EventRepository eventRepository;
 
+    @Transactional
     @Override
     public CategoryDto create(NewCategoryDto createDto) {
         Category category = Category.builder()
@@ -37,6 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toDto(category);
     }
 
+    @Transactional
     @Override
     public void delete(Long categoryId) {
         Optional.of(categoryId)
@@ -65,6 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new NotFoundException("Категория с id = " + id + " не найдена в системе"));
     }
 
+    @Transactional
     @Override
     public CategoryDto update(Long id, NewCategoryDto updateCategory) {
         Category category = categoryRepository.findById(id)
