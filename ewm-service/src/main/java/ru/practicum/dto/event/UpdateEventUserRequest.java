@@ -6,6 +6,7 @@ import ru.practicum.model.Event;
 import ru.practicum.model.StateAction;
 import ru.practicum.utility.validation.StartTimeValidation;
 
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ public class UpdateEventUserRequest {
     private LocalDateTime eventDate;
     private Event.Location location;
     private Boolean paid;
+    @PositiveOrZero
     private Long participantLimit;
     private Boolean requestModeration;
     private StateAction stateAction;

@@ -5,10 +5,7 @@ import lombok.Data;
 import ru.practicum.model.Event;
 import ru.practicum.utility.validation.StartTimeValidation;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Data
@@ -28,6 +25,7 @@ public class NewEventDto {
     @NotNull
     private Event.Location location;
     private Boolean paid = false;
+    @PositiveOrZero
     private Long participantLimit = 0L;
     private Boolean requestModeration = true;
     @Size(min = 3, max = 120, message = "Поле title должно содержать от 20 до 7000 символов")
