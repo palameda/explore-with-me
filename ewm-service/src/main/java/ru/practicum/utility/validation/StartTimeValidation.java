@@ -1,7 +1,5 @@
 package ru.practicum.utility.validation;
 
-import jdk.jfr.EventType;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
