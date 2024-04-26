@@ -10,5 +10,5 @@ public interface RequestMapper extends DefaultMapper<EventParticipationRequest, 
     @Override
     @Mapping(target = "event", source = "entity.event.id")
     @Mapping(target = "requester", source = "entity.requester.id")
-    ParticipationRequestDto toDTO(EventParticipationRequest entity);
+    ParticipationRequestDto toDto(EventParticipationRequest entity);
 }
