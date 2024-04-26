@@ -2,6 +2,7 @@ package ru.practicum.controller.event;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.controller.logs.ControllerLog;
 import ru.practicum.dto.event.EventFullDto;
@@ -11,8 +12,10 @@ import ru.practicum.dto.event.UpdateEventUserRequest;
 import ru.practicum.service.event.EventService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
@@ -31,7 +34,7 @@ public class EventUserController {
     @GetMapping("/{userId}/events")
     @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> getEventsByInitiator(@PathVariable("userId") Long initiatorId,
-                                                    @RequestParam(value = "from", defaultValue = "0") Integer from,
+                                                    @RequestParam(value = "from", defaultValue = "0") @Min(0) Integer from,
                                                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return List.copyOf(eventService.getAllByUser(initiatorId, from, size));
     }
