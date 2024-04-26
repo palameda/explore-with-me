@@ -52,6 +52,6 @@ public class StatService {
     }
 
     private HitDto generateEndpointHit() {
-        return new HitDto("ewm-main-service", httpRequest.getRequestURI(), httpRequest.getRemoteAddr(), LocalDateTime.now());
+        return new HitDto("main-service", httpRequest.getRequestURI(), httpRequest.getRemoteAddr(), LocalDateTime.now());
     }
 }
