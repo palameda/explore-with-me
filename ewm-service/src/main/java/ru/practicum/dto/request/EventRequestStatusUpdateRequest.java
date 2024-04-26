@@ -1,4 +1,4 @@
-package ru.practicum.api.request;
+package ru.practicum.dto.request;
 
 import lombok.Data;
 import ru.practicum.model.Status;

@@ -1,9 +1,9 @@
-package ru.practicum.api.event;
+package ru.practicum.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import ru.practicum.api.category.CategoryDto;
-import ru.practicum.api.user.UserShortDto;
+import ru.practicum.dto.category.CategoryDto;
+import ru.practicum.dto.user.UserShortDto;
 
 import java.time.LocalDateTime;
 

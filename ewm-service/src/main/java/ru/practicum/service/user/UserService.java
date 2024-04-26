@@ -1,7 +1,7 @@
 package ru.practicum.service.user;
 
-import ru.practicum.api.user.NewUserRequest;
-import ru.practicum.api.user.UserDto;
+import ru.practicum.dto.user.NewUserRequest;
+import ru.practicum.dto.user.UserDto;
 import ru.practicum.utility.crud.DefaultCreateService;
 import ru.practicum.utility.crud.DefaultDeleteService;
 

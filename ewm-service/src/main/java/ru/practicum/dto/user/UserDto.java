@@ -1,9 +1,10 @@
-package ru.practicum.api.user;
+package ru.practicum.dto.user;
 
 import lombok.Data;
 
 @Data
-public class UserShortDto {
+public class UserDto {
+    private Long id;
     private String email;
     private String name;
 }

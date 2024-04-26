@@ -1,7 +1,7 @@
 package ru.practicum.utility.mapper;
 
 import org.mapstruct.Mapper;
-import ru.practicum.api.category.CategoryDto;
+import ru.practicum.dto.category.CategoryDto;
 import ru.practicum.model.Category;
 
 @Mapper(componentModel = "spring")

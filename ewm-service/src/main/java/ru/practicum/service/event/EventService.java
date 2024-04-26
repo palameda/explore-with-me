@@ -1,6 +1,6 @@
 package ru.practicum.service.event;
 
-import ru.practicum.api.event.*;
+import ru.practicum.dto.event.*;
 import ru.practicum.model.EventSort;
 import ru.practicum.utility.crud.DefaultGetService;
 import ru.practicum.utility.crud.event.AdminActionsEventService;

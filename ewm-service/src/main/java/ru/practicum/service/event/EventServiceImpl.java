@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import ru.practicum.api.event.*;
+import ru.practicum.dto.event.*;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.exception.ForbiddenActionException;
 import ru.practicum.exception.NotFoundException;

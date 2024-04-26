@@ -1,7 +1,7 @@
 package ru.practicum.service.compilation;
 
-import ru.practicum.api.compilation.CompilationDto;
-import ru.practicum.api.compilation.NewCompilationDto;
+import ru.practicum.dto.compilation.CompilationDto;
+import ru.practicum.dto.compilation.NewCompilationDto;
 import ru.practicum.utility.crud.DefaultCreateService;
 import ru.practicum.utility.crud.DefaultDeleteService;
 import ru.practicum.utility.crud.DefaultGetService;

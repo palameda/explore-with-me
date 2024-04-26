@@ -1,7 +1,7 @@
 package ru.practicum.utility.mapper;
 
 import org.mapstruct.Mapper;
-import ru.practicum.api.event.EventShortDto;
+import ru.practicum.dto.event.EventShortDto;
 import ru.practicum.model.Event;
 
 @Mapper(componentModel = "spring")

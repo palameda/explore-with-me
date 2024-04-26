@@ -1,7 +1,7 @@
 package ru.practicum.service.category;
 
-import ru.practicum.api.category.CategoryDto;
-import ru.practicum.api.category.NewCategoryDto;
+import ru.practicum.dto.category.CategoryDto;
+import ru.practicum.dto.category.NewCategoryDto;
 import ru.practicum.utility.crud.DefaultCreateService;
 import ru.practicum.utility.crud.DefaultDeleteService;
 import ru.practicum.utility.crud.DefaultGetService;
