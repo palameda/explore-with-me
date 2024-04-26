@@ -5,28 +5,36 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.controller.logs.ControllerLog;
 import ru.practicum.dto.category.CategoryDto;
+import ru.practicum.dto.category.NewCategoryDto;
 import ru.practicum.service.category.CategoryService;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/categories")
+@RequestMapping(path = "/admin/categories")
 @RequiredArgsConstructor
 public class CategoryAdminController {
     private final CategoryService categoryService;
 
     @ControllerLog
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<CategoryDto> getCategories(@RequestParam(value = "from", defaultValue = "0") Integer from,
-                                           @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        return List.copyOf(categoryService.getAll(from, size));
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryDto createNewCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {
+        return categoryService.create(newCategoryDto);
     }
 
     @ControllerLog
-    @GetMapping("/{catId}")
+    @DeleteMapping("/{catId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable("catId") Long catId) {
+        categoryService.delete(catId);
+    }
+
+    @ControllerLog
+    @PatchMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
-    public CategoryDto getCategoryById(@PathVariable("catId") Long catId) {
-        return categoryService.get(catId);
+    public CategoryDto updateCategory(@PathVariable("catId") Long catId,
+                                      @RequestBody @Valid NewCategoryDto newCategoryDto) {
+        return categoryService.update(catId, newCategoryDto);
     }
 }
