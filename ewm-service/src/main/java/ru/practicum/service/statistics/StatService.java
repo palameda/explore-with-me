@@ -31,13 +31,13 @@ public class StatService {
     private final DateTimeFormatter formatter;
 
     @PostConstruct
-    void init() {
+    public void init() {
         log.info("baseurl = {}", url);
         client = ClientFactory.getDefaultClient(url);
     }
 
     @Pointcut("@annotation(Statistics)")
-    void savingProcess() {
+    public void savingProcess() {
     }
 
     @After("savingProcess()")
