@@ -16,6 +16,7 @@ import ru.practicum.repository.RequestRepository;
 import ru.practicum.repository.UserRepository;
 import ru.practicum.utility.mapper.RequestMapper;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
     private final RequestMapper requestMapper;
 
+    @Transactional
     @Override
     public ParticipationRequestDto createRequest(Long userId, Long eventId) {
         Event event = Optional.ofNullable(eventId)
@@ -77,6 +79,7 @@ public class RequestServiceImpl implements RequestService {
         return handleEventRequests(event, requests, updateRequest.getStatus());
     }
 
+    @Transactional
     @Override
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
         EventParticipationRequest request = Optional.ofNullable(requestId)
