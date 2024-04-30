@@ -1,7 +1,6 @@
 package ru.practicum.exception;
 
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.dto.exception.ApiError;
 import ru.practicum.exception.logs.ExceptionLog;
 
-@Slf4j
-@ToString
 @RestControllerAdvice
 public class ErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
