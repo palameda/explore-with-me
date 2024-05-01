@@ -2,7 +2,6 @@ package ru.practicum.service.comment;
 
 import ru.practicum.dto.comment.CommentDto;
 import ru.practicum.dto.comment.NewCommentDto;
-import ru.practicum.utility.crud.user.UserRequestCreateService;
 
 import java.util.List;
 

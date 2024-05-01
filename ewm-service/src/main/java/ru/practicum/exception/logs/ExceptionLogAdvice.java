@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 public class ExceptionLogAdvice {
 
     @Pointcut("@annotation(ExceptionLog)")
-    public void processing() {}
+    public void processing() {
+    }
 
     @After("processing()")
     @SneakyThrows
