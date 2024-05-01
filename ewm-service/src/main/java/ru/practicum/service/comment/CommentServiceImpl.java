@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.comment.CommentDto;
 import ru.practicum.dto.comment.NewCommentDto;
 import ru.practicum.exception.ForbiddenActionException;
@@ -21,6 +22,7 @@ import ru.practicum.utility.page.Page;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -43,24 +45,55 @@ public class CommentServiceImpl implements CommentService {
         return List.copyOf(commentMapper.toDto(comments));
     }
 
+    @Transactional
     @Override
-    public CommentDto create(Long userId, NewCommentDto commentDto) {
-        User author = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден в системе"));
-        Event event = eventRepository
-                .findById(commentDto.getEvent_id())
-                .orElseThrow(() -> new NotFoundException("Событие с id = " + commentDto.getEvent_id() + " не найдено в системе"));
+    public CommentDto create(long userId, long eventId, NewCommentDto newCommentDto) {
+        User author = getUserById(userId);
+        Event event = getEventById(eventId);
         handleCommentAvailability(event);
+        Comment comment = commentRepository.save(commentMapper.toModel(newCommentDto, event, author));
+        log.info("Добавлен комментарий от пользователя {} к событию {}", author, event);
+        return commentMapper.toDto(comment);
+    }
 
-        Comment comment = Comment.builder()
-                .eventId(commentDto.getEvent_id())
-                .author(author)
-                .text(commentDto.getText())
-                .created(LocalDateTime.now())
-                .build();
-        log.info("Добавление комментария от {} к событию {}", author, event);
-        return commentMapper.toDto(commentRepository.save(comment));
+    @Transactional
+    @Override
+    public CommentDto updateByUser(long userId, long commentId, NewCommentDto updateDto) {
+        Comment comment = getCommentById(commentId);
+        handleCommentAuthorship(comment, userId);
+        comment.setText(updateDto.getText());
+        comment.setEdited(LocalDateTime.now());
+        commentRepository.save(comment);
+        log.info("Комментарий {} упешно отредактирован автором", comment);
+        return commentMapper.toDto(comment);
+    }
+
+    @Transactional
+    @Override
+    public CommentDto updateByAdmin(long commentId, NewCommentDto updateDto) {
+        Comment comment = getCommentById(commentId);
+        comment.setText(updateDto.getText());
+        comment.setEdited(LocalDateTime.now());
+        commentRepository.save(comment);
+        log.info("Комментарий {} упешно отредактирован администратором", comment);
+        return commentMapper.toDto(comment);
+    }
+
+    @Transactional
+    @Override
+    public void deleteByUser(long userId, long commentId) {
+        Comment comment = getCommentById(commentId);
+        handleCommentAuthorship(comment, userId);
+        commentRepository.deleteById(commentId);
+        log.info("Комментарий {} удалён автором", comment);
+    }
+
+    @Transactional
+    @Override
+    public void deleteByAdmin(long commentId) {
+        Comment comment = getCommentById(commentId);
+        commentRepository.deleteById(commentId);
+        log.info("Комментарий {} удалён администратором", comment);
     }
 
     private void handleCommentAvailability(Event event) {
@@ -68,5 +101,29 @@ public class CommentServiceImpl implements CommentService {
                 .filter(e -> !e.getState().equals(State.PENDING))
                 .orElseThrow(() -> new ForbiddenActionException("Комментировать можно только те события, " +
                         "которые находятся в состоянии ожидания"));
+    }
+
+    private void handleCommentAuthorship(Comment comment, Long userId) {
+        if (!Objects.equals(comment.getAuthor().getId(), userId)) {
+            throw new ForbiddenActionException("Пользователь с id = " + userId + " не является автором комментария");
+        }
+    }
+
+    private User getUserById(Long userId) {
+        return userRepository
+                .findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден в системе"));
+    }
+
+    private Event getEventById(Long eventId) {
+        return eventRepository
+                .findById(eventId)
+                .orElseThrow(() -> new NotFoundException("Событие с id = " + eventId + " не найдено в системе"));
+    }
+
+    private Comment getCommentById(Long commentId) {
+        return commentRepository
+                .findById(commentId)
+                .orElseThrow(() -> new NotFoundException("Комментарий с id = " + commentId + " не найден в системе"));
     }
 }
