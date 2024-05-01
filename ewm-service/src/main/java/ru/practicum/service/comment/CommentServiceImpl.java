@@ -100,7 +100,7 @@ public class CommentServiceImpl implements CommentService {
         Optional.ofNullable(event)
                 .filter(e -> !e.getState().equals(State.PENDING))
                 .orElseThrow(() -> new ForbiddenActionException("Комментировать можно только те события, " +
-                        "которые находятся в состоянии ожидания"));
+                        "которые не находятся в состоянии ожидания"));
     }
 
     private void handleCommentAuthorship(Comment comment, Long userId) {
