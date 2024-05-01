@@ -50,5 +50,6 @@ create table if not exists comments (
     event_id bigint not null references events(id),
     author_id bigint not null references users(id),
     text varchar(2000) not null,
-    created timestamp not null
+    created timestamp not null,
+    edited timestamp
 );
