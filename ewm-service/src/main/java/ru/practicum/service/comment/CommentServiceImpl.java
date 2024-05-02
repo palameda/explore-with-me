@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.comment.CommentDto;
 import ru.practicum.dto.comment.NewCommentDto;
-import ru.practicum.exception.ForbiddenActionException;
+import ru.practicum.exception.DataConflictException;
+import ru.practicum.exception.DenialOfAccessException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.model.Comment;
 import ru.practicum.model.Event;
@@ -99,13 +100,13 @@ public class CommentServiceImpl implements CommentService {
     private void handleCommentAvailability(Event event) {
         Optional.ofNullable(event)
                 .filter(e -> !e.getState().equals(State.PENDING))
-                .orElseThrow(() -> new ForbiddenActionException("Комментировать можно только те события, " +
+                .orElseThrow(() -> new DataConflictException("Комментировать можно только те события, " +
                         "которые не находятся в состоянии ожидания"));
     }
 
     private void handleCommentAuthorship(Comment comment, Long userId) {
         if (!Objects.equals(comment.getAuthor().getId(), userId)) {
-            throw new ForbiddenActionException("Пользователь с id = " + userId + " не является автором комментария");
+            throw new DenialOfAccessException("Пользователь с id = " + userId + " не является автором комментария");
         }
     }
 

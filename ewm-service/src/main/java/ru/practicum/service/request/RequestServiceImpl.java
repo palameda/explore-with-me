@@ -7,7 +7,7 @@ import ru.practicum.dto.request.EventRequestStatusUpdateRequest;
 import ru.practicum.dto.request.EventRequestStatusUpdateResult;
 import ru.practicum.dto.request.ParticipationRequestDto;
 import ru.practicum.exception.ConfirmationException;
-import ru.practicum.exception.ForbiddenActionException;
+import ru.practicum.exception.DataConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.RequestProcessingException;
 import ru.practicum.model.*;
@@ -86,7 +86,7 @@ public class RequestServiceImpl implements RequestService {
                 .map(id -> requestRepository.findById(requestId)
                         .orElseThrow(() -> new NotFoundException("Запрос с id = " + id + " не найден в системе")))
                 .filter(req -> req.getRequester().getId().equals(userId))
-                .orElseThrow(() -> new ForbiddenActionException("Запрос не принадлежит пользователю"));
+                .orElseThrow(() -> new DataConflictException("Запрос не принадлежит пользователю"));
 
         request.setStatus(Status.CANCELED);
         requestRepository.save(request);
@@ -108,7 +108,7 @@ public class RequestServiceImpl implements RequestService {
         Long confirmedRequests = event.getConfirmedRequests();
 
         if (participantLimit.equals(confirmedRequests)) {
-            throw new ForbiddenActionException("Достигнут лимит заявок");
+            throw new DataConflictException("Достигнут лимит заявок");
         }
 
         EventRequestStatusUpdateResult result = new EventRequestStatusUpdateResult();
@@ -119,7 +119,7 @@ public class RequestServiceImpl implements RequestService {
         while (confirmedRequests < participantLimit && iterator.hasNext()) {
             EventParticipationRequest request = iterator.next();
             if (!request.getStatus().equals(Status.PENDING)) {
-                throw new ForbiddenActionException("Заявка c id = " + request.getId() + " уже была рассмотрена");
+                throw new DataConflictException("Заявка c id = " + request.getId() + " уже была рассмотрена");
             }
             request.setStatus(status);
             if (status.equals(Status.CONFIRMED)) {
@@ -150,7 +150,7 @@ public class RequestServiceImpl implements RequestService {
     private void checkUserCanConfirmRequests(User user, Event event) {
         Long userId = user.getId();
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new ForbiddenActionException("Пользователь не является создателем ивента");
+            throw new DataConflictException("Пользователь не является создателем ивента");
         }
     }
 
