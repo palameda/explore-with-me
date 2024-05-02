@@ -1,7 +1,7 @@
 package ru.practicum;
 
 public class ClientFactory {
-    public static StatClientImpl getDefaultClient(String url) {
+    public static StatClient getDefaultClient(String url) {
         return new StatClientImpl(url);
     }
 }
