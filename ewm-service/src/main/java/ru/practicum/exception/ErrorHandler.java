@@ -27,7 +27,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler
     @ExceptionLog
-    public ApiError handleForbiddenActionException(final ForbiddenActionException e) {
+    public ApiError handleDataConflictException(final DataConflictException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.CONFLICT);
     }
 
@@ -50,5 +50,12 @@ public class ErrorHandler {
     @ExceptionLog
     public ApiError handleNotFoundException(final NotFoundException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler
+    @ExceptionLog
+    public ApiError handleDenialOfAccessException(final DenialOfAccessException e) {
+        return ApiError.createApiErrorFromException(e, HttpStatus.FORBIDDEN);
     }
 }
