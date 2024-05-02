@@ -8,7 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.practicum.ClientFactory;
 import ru.practicum.StatClient;
 import ru.practicum.dto.HitDto;
 import ru.practicum.dto.StatsDto;
@@ -24,7 +23,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class StatService {
-    private static StatClient client;
+    private StatClient client;
     private final HttpServletRequest httpRequest;
     @Value("${stat.client.baseurl}")
     private String url;
@@ -33,7 +32,7 @@ public class StatService {
     @PostConstruct
     public void init() {
         log.info("baseurl = {}", url);
-        client = ClientFactory.getDefaultClient(url);
+        client = new StatClient(url);
     }
 
     @Pointcut("@annotation(Statistics)")
