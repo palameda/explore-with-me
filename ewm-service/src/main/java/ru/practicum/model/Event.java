@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -58,7 +57,4 @@ public class Event {
     private Location location;
     @Enumerated(EnumType.STRING)
     private StateAction stateAction;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    private List<Comment> comments;
 }
