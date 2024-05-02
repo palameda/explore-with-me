@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.event.*;
 import ru.practicum.dto.StatsDto;
-import ru.practicum.exception.ForbiddenActionException;
+import ru.practicum.exception.DataConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.RequestProcessingException;
 import ru.practicum.model.*;
@@ -82,7 +82,7 @@ public class EventServiceImpl implements EventService {
                 .map(id -> eventRepository.findById(id)
                         .orElseThrow(() -> new NotFoundException("Событие с id = " + eventId + " не найдено в системе")))
                 .filter(e -> e.getState().equals(State.PENDING) && !e.getStateAction().equals(StateAction.REJECT_EVENT))
-                .orElseThrow(() -> new ForbiddenActionException("Условия для изменения события не выполнены"));
+                .orElseThrow(() -> new DataConflictException("Условия для изменения события не выполнены"));
 
         handleAdminUpdate(event, request);
         eventRepository.save(event);
@@ -220,7 +220,7 @@ public class EventServiceImpl implements EventService {
 
     private void checkEventCanBeUpdated(Event event) {
         if (event.getState().equals(State.PUBLISHED)) {
-            throw new ForbiddenActionException("Нельзя внести изменения в событие, которое прошло модерацию");
+            throw new DataConflictException("Нельзя внести изменения в событие, которое прошло модерацию");
         }
     }
 

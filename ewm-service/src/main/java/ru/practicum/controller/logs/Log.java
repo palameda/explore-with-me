@@ -18,12 +18,12 @@ public class Log {
     private final HttpServletRequest httpRequest;
 
     @Pointcut("@annotation(ControllerLog)")
-    void loggingProcess() {
+    public void loggingProcess() {
     }
 
     @Before("loggingProcess()")
     @SneakyThrows
-    void doLogging() {
+    public void doLogging() {
         log.info("Метод: {}, URI: {}, Запрос: {}", httpRequest.getMethod(), httpRequest.getRequestURI(), httpRequest.getQueryString());
     }
 }

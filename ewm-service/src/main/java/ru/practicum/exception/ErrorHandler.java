@@ -6,42 +6,56 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.dto.exception.ApiError;
+import ru.practicum.exception.logs.ExceptionLog;
 
 @RestControllerAdvice
 public class ErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler
-    public ApiError handleBadDateRangeException(final DataIntegrityViolationException e) {
+    @ExceptionLog
+    public ApiError handleDateParameterException(final DataIntegrityViolationException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.CONFLICT);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler
-    public ApiError handleDeleteCategoryException(final DeleteEntityException e) {
+    @ExceptionLog
+    public ApiError handleDeleteEntityException(final DeleteEntityException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.CONFLICT);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler
-    public ApiError handleForbiddenToChangeException(final ForbiddenActionException e) {
+    @ExceptionLog
+    public ApiError handleDataConflictException(final DataConflictException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.CONFLICT);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler
+    @ExceptionLog
     public ApiError handleRequestProcessingException(final RequestProcessingException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.CONFLICT);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    public ApiError handleBadDateRangeException(final DateParameterException e) {
+    @ExceptionLog
+    public ApiError handleDateParameterException(final DateParameterException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
+    @ExceptionLog
     public ApiError handleNotFoundException(final NotFoundException e) {
         return ApiError.createApiErrorFromException(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler
+    @ExceptionLog
+    public ApiError handleDenialOfAccessException(final DenialOfAccessException e) {
+        return ApiError.createApiErrorFromException(e, HttpStatus.FORBIDDEN);
     }
 }
