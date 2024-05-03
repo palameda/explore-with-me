@@ -24,7 +24,7 @@
 ## Спецификация API
 Для обоих сервисов разработаны подробные спецификации API:
 * спецификация основного сервиса: <a href="ewm-main-service-spec.json">ewm-main-service-spec.json</a>;
-* спецификация сервиса статистики: <a href="ewm-stats-service.json">ewm-stats-service.json</a>.
+* спецификация сервиса статистики: <a href="ewm-stats-service-spec.json">ewm-stats-service-spec.json</a>.
 
 ## Стэк
 * JDK Amazon Coretto version 11 - кроссплатформенный дистрибутив OpenJDK с долгосрочной поддержкой
